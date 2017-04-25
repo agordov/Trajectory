@@ -1,6 +1,6 @@
-package Controller;
+package Trajectory.Controller;
 
-import Model.Model;
+import Trajectory.Model.Model;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
 
@@ -19,7 +19,7 @@ public class Controller {
         } catch (NumberFormatException e) {
             throw new NumberFormatException("This is not a number");
         }
-        Model model = new Model(x, y, vX, vY, 0.001);
+        Model model = new Model(this.x, this.y, this.vX, this.vY, 0.001);
     }
 
     private double getX(String x){
