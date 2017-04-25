@@ -1,6 +1,6 @@
-package javaFx.Trajectory.View;
+package Trajectory.View;
 
-import javaFx.Trajectory.Controller.Controller;
+import Trajectory.Controller.Controller;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -9,7 +9,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -20,8 +19,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import static javaFx.Trajectory.View.Constants.*;
-import static javaFx.Trajectory.View.WindowUtils.*;
+import static Trajectory.View.Constants.*;
+import static Trajectory.View.WindowUtils.*;
 
 public class Window extends Application{
     private static Button button;

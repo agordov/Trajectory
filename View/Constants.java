@@ -1,4 +1,4 @@
-package javaFx.Trajectory.View;
+package Trajectory.View;
 
 import javafx.geometry.Pos;
 import javafx.scene.paint.Color;

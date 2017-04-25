@@ -1,4 +1,4 @@
-package javaFx.Trajectory.Model;
+package Trajectory.Model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

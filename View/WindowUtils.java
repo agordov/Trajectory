@@ -1,4 +1,4 @@
-package javaFx.Trajectory.View;
+package Trajectory.View;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -8,7 +8,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
-import static javaFx.Trajectory.View.Constants.*;
+import static Trajectory.View.Constants.*;
 
 public class WindowUtils {
 

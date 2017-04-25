@@ -1,11 +1,11 @@
-package javaFx.Trajectory.Controller;
+package Trajectory.Controller;
 
-import javaFx.Trajectory.Model.Model;
+import Trajectory.Model.Model;
 
 public class Controller {
     private Model model;
 
-    Controller() {
+    public Controller() {
         this.model = new Model();
     }
 
