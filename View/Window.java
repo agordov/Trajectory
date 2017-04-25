@@ -1,9 +1,15 @@
 package javaFx.Trajectory.View;
 
+import javaFx.Trajectory.Controller.Controller;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -20,6 +26,7 @@ import static javaFx.Trajectory.View.WindowUtils.*;
 public class Window extends Application{
     private static Button button;
     private static GridPane gridPane;
+    private static LineChart<Number, Number> trajectoryGraph;
 
     public static void main(String[] args) {
         launch(args);
@@ -28,7 +35,6 @@ public class Window extends Application{
     @Override
     public void start(Stage stage) throws Exception {
         stage.setTitle("Trajectory");
-
 
         gridPane = createGridPane();
         button = new Button("Start");
@@ -44,6 +50,19 @@ public class Window extends Application{
         gridPane.add(bottomPanel, 0, 1);
         gridPane.add(rightPanel, 1, 0);
         gridPane.add(new StackPane(button), 1, 1);
+
+        trajectoryGraph = createLineChart();
+        trajectoryGraph.setTitle("Series");
+        gridPane.add(trajectoryGraph, 0, 0);
+
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Controller controller = new Controller();
+                //trajectoryGraph.setData(controller.getData());
+            }
+        });
+
         stage.show();
     }
 
@@ -53,9 +72,9 @@ public class Window extends Application{
         Label maxHeight = createLabel("MaxHeight:");
         Label time = createLabel("Falling time:");
         Label distance = createLabel("Distance:");
-        Text maxHeightValue = createText("");
-        Text timeValue = createText("");
-        Text distanceValue = createText("");
+        Text maxHeightValue = createText("tqtw4tw");
+        Text timeValue = createText("tq4t4qt");
+        Text distanceValue = createText("ju5khetk");
         vBox.getChildren().addAll(
                 new HBox(maxHeight, maxHeightValue),
                 new HBox(time, timeValue),
@@ -101,6 +120,12 @@ public class Window extends Application{
     private static GridPane createGridPane() {
         return createGridPane(DEFAULT_POS, DEFAULT_HGAP, DEFAULT_VGAP,
                 DEFAULT_TOPPAD, DEFAULT_RIGHTPAD, DEFAULT_BOTPAD, DEFAULT_LEFTPAD);
+    }
+
+    private static LineChart<Number, Number> createLineChart() {
+        NumberAxis x = new NumberAxis();
+        NumberAxis y = new NumberAxis();
+        return new LineChart<>(x, y);
     }
 
 }

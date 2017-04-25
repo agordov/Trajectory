@@ -1,13 +1,6 @@
 package javaFx.Trajectory.Controller;
 
 import javaFx.Trajectory.Model.Model;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.chart.LineChart;
-import javafx.scene.control.TextField;
-
-import static javafx.scene.input.KeyCode.Y;
-
 
 public class Controller {
     private Model model;
@@ -53,3 +46,4 @@ public class Controller {
 //        });
 //    }
 }
+

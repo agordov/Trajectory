@@ -6,7 +6,7 @@ import javafx.scene.chart.XYChart;
 
 public class Model {
 
-    private final double FFA = 9.78;
+    private final double FFA = 9.81;
 
     public ObservableList<XYChart.Data> createTrajectory(double x0, double y0, double vx, double vy, double dt) {
         // XYChart.Series<Number, Number> series = new XYChart.Series<>();
