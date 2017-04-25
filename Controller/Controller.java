@@ -39,7 +39,7 @@ public class Controller {
     }
 
     public ObservableList<XYChart.Data> getData(){
-       
+
         return model.createTrajectory();
     }
     public double getMaxHeight() {
