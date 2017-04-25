@@ -1,49 +1,45 @@
-package Trajectory.Controller;
+package Controller;
 
-import Trajectory.Model.Model;
+import Model.Model;
+import javafx.collections.ObservableList;
+import javafx.scene.chart.XYChart;
 
 public class Controller {
     private Model model;
-
-    public Controller() {
-        this.model = new Model();
+    private double x;
+    private double y;
+    private double vX;
+    private double vY;
+    public Controller(String x, String y, String vX, String vY) throws NumberFormatException {
+        try {
+            this.x = getX(x);
+            this.y = getY(y);
+            this.vX = getVx(vX);
+            this.vY = getVy(vY);
+        } catch (NumberFormatException e) {
+            throw new NumberFormatException("This is not a number");
+        }
+        Model model = new Model(x, y, vX, vY, 0.001);
     }
 
-//    public void setModel(Model model) {
-//        this.model = model;
-//    }
-//
-//    public TextField getX(){
-//        return X.Graph;
-//    }
-//    public void getY(){
-//
-//        return Y.Graph;
-//    }
-//    public void getVx(){
-//        return Vx.Graph;
-//    }
-//    public void getVy()
-//    {
-//        return Vy.Graph;
-//    }
+    private double getX(String x){
+        return Double.parseDouble(x);
+    }
 
-//    public LineChart<Number, Number> getData(String x, String y, String vX, String vY) throws RuntimeException {
-//
-//    }
+    private double getY(String y){
+        return Double.parseDouble(y);
+    }
 
-//    btn.setOnAction(new EventHandler<ActionEvent>() {
-//        @Override
-//        public void handle(ActionEvent e) {
-//            Controller controller = new Controller();
-//        Double X = Double.parseDouble (getX());
-//        Double Y = Double.parseDouble (getY());
-//        Double Vx = Double.parseDouble (getVx());
-//        Double Vy = Double.parseDouble (getVy());
-//        Model.CreateTrajectory (X, Y, Vx, Vy);
-//
-//
-//        });
-//    }
+    private double getVx(String vX){
+        return Double.parseDouble(vX);
+    }
+
+    private double getVy(String vY) {
+        return Double.parseDouble(vY);
+    }
+
+    public ObservableList<XYChart.Data> getData(){
+       return model.createTrajectory();
+    }
 }
 
