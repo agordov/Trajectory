@@ -6,6 +6,7 @@ import javafx.scene.chart.XYChart;
 
 public class Model {
 
+
     private final double FFA = 9.81;
     private double x;
     private double y;
@@ -21,16 +22,20 @@ public class Model {
         this.dt = dt;
     }
 
-    public ObservableList<XYChart.Data> createTrajectory() {
-        ObservableList<XYChart.Data> data = FXCollections.observableArrayList();
-        double xcur = x;
+    public XYChart.Series<Number, Number> createTrajectory() {
+        ObservableList<XYChart.Data<Number, Number>> data = FXCollections.observableArrayList();
+        XYChart.Series<Number, Number> series = new XYChart.Series<>();
+        double xcur;
         double ycur = y;
-        while(ycur != 0) {
-            data.add(new XYChart.Data<Number, Number>(xcur, ycur));
-            xcur += vx * dt;
-            ycur += vy * dt + FFA * dt * dt / 2;
+        double t = 0;
+        while(ycur >= 0) {
+            xcur = vx * t + x;
+            ycur = y + vy * t - FFA * t * t / 2;
+            t += dt;
+            data.add(new XYChart.Data<>(xcur, ycur));
         }
-        return data;
+        series.setData(data);
+        return series;
     }
 
     public double maxHeight() {

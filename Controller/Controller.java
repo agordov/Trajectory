@@ -1,7 +1,6 @@
 package Trajectory.Controller;
 
 import Trajectory.Model.Model;
-import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
 
 public class Controller {
@@ -10,6 +9,7 @@ public class Controller {
     private double y;
     private double vX;
     private double vY;
+
     public Controller(String x, String y, String vX, String vY) throws NumberFormatException {
         try {
             this.x = getX(x);
@@ -19,7 +19,7 @@ public class Controller {
         } catch (NumberFormatException e) {
             throw new NumberFormatException("This is not a number");
         }
-        Model model = new Model(this.x, this.y, this.vX, this.vY, 0.001);
+        model = new Model(this.x, this.y, this.vX, this.vY, 0.05);
     }
 
     private double getX(String x){
@@ -38,7 +38,7 @@ public class Controller {
         return Double.parseDouble(vY);
     }
 
-    public ObservableList<XYChart.Data> getData(){
+    public XYChart.Series<Number, Number> getData(){
        return model.createTrajectory();
     }
 }

@@ -26,6 +26,10 @@ public class Window extends Application{
     private static Button button;
     private static GridPane gridPane;
     private static LineChart<Number, Number> trajectoryGraph;
+    private static TextField inputX;
+    private static TextField inputY;
+    private static TextField inputVx;
+    private static TextField inputVy;
 
     public static void main(String[] args) {
         launch(args);
@@ -50,15 +54,17 @@ public class Window extends Application{
         gridPane.add(rightPanel, 1, 0);
         gridPane.add(new StackPane(button), 1, 1);
 
-        trajectoryGraph = createLineChart();
+//        trajectoryGraph = createLineChart();
         trajectoryGraph.setTitle("Series");
         gridPane.add(trajectoryGraph, 0, 0);
 
         button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                Controller controller = new Controller();
-                //trajectoryGraph.setData(controller.getData());
+                try {
+                    Controller controller = new Controller(inputX.getText(), inputY.getText(), inputVx.getText(), inputVy.getText());
+                }
+                trajectoryGraph = controller.getData());
             }
         });
 
@@ -69,7 +75,7 @@ public class Window extends Application{
         VBox vBox = new VBox();
         vBox.setSpacing(10);
         Label maxHeight = createLabel("MaxHeight:");
-        Label time = createLabel("Falling time:");
+        Label time = createLabel("Flight time:");
         Label distance = createLabel("Distance:");
         Text maxHeightValue = createText("tqtw4tw");
         Text timeValue = createText("tq4t4qt");
@@ -88,10 +94,10 @@ public class Window extends Application{
         Label y = createLabel("Y");
         Label vX = createLabel("Vx");
         Label vY = createLabel("Vy");
-        TextField inputX = createTextField();
-        TextField inputY = createTextField();
-        TextField inputVx = createTextField();
-        TextField inputVy = createTextField();
+        inputX = createTextField();
+        inputY = createTextField();
+        inputVx = createTextField();
+        inputVy = createTextField();
         hBox.getChildren().addAll(
                 new VBox(x, inputX),
                 new VBox(y, inputY),
