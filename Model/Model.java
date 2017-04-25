@@ -8,7 +8,7 @@ public class Model {
 
     private final double FFA = 9.78;
 
-    public ObservableList<XYChart.Data> CreateTrajectory(double x0, double y0, double vx, double vy, double dt) {
+    public ObservableList<XYChart.Data> createTrajectory(double x0, double y0, double vx, double vy, double dt) {
         // XYChart.Series<Number, Number> series = new XYChart.Series<>();
         ObservableList<XYChart.Data> data = FXCollections.observableArrayList();
         double x = x0;
