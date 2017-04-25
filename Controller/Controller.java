@@ -22,15 +22,15 @@ public class Controller {
         model = new Model(this.x, this.y, this.vX, this.vY, 0.05);
     }
 
-    private double getX(String x){
+    private double getX(String x) {
         return Double.parseDouble(x);
     }
 
-    private double getY(String y){
+    private double getY(String y) {
         return Double.parseDouble(y);
     }
 
-    private double getVx(String vX){
+    private double getVx(String vX) {
         return Double.parseDouble(vX);
     }
 
@@ -38,8 +38,19 @@ public class Controller {
         return Double.parseDouble(vY);
     }
 
-    public XYChart.Series<Number, Number> getData(){
-       return model.createTrajectory();
+    public XYChart.Series<Number, Number> getData() {
+        return model.createTrajectory();
+    }
+
+    public double getMaxHeight() {
+        return model.maxHeight();
+    }
+
+    public double getflightTime() {
+        return model.flightTime();
+    }
+
+    public double maxDistance() {
+        return model.maxDistance();
     }
 }
-
