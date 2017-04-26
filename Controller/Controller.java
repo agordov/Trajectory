@@ -83,7 +83,7 @@ public class Controller implements EventHandler<ActionEvent> {
         return model.maxHeight();
     }
 
-    public double flightTime() {
+    public double getFlightTime() {
         return model.flightTime();
     }
 
