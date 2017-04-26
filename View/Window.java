@@ -28,6 +28,7 @@ public class Window extends Application{
     private static TextField inputY;
     private static TextField inputVx;
     private static TextField inputVy;
+    private static TextField inputDt;
 
     public static void main(String[] args) {
         launch(args);
@@ -62,9 +63,9 @@ public class Window extends Application{
         trajectoryGraph.setTitle("Trajectories");
         gridPane.add(trajectoryGraph, 0, 0);
 
-        clearButton.setOnAction(new ClearController(trajectoryGraph, errorField));
+        clearButton.setOnAction(new ClearController(trajectoryGraph, errorField, inputX, inputY, inputVx, inputVy, inputDt));
 
-        startButton.setOnAction(new Controller(trajectoryGraph, errorField, inputX, inputY, inputVx, inputVy,
+        startButton.setOnAction(new Controller(trajectoryGraph, errorField, inputX, inputY, inputVx, inputVy, inputDt,
                 rightPanel.distanceValue, rightPanel.maxHeightValue, rightPanel.flightTimeValue));
 
         stage.show();
@@ -76,15 +77,18 @@ public class Window extends Application{
         Label y = createLabel("Y");
         Label vX = createLabel("Vx");
         Label vY = createLabel("Vy");
+        Label dT = createLabel("dT");
         inputX = createTextField();
         inputY = createTextField();
         inputVx = createTextField();
         inputVy = createTextField();
+        inputDt = createTextField();
         hBox.getChildren().addAll(
                 new VBox(x, inputX),
                 new VBox(y, inputY),
                 new VBox(vX, inputVx),
-                new VBox(vY, inputVy)
+                new VBox(vY, inputVy),
+                new VBox(dT, inputDt)
         );
         return hBox;
     }

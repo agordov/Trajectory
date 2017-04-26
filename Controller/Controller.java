@@ -20,12 +20,15 @@ public class Controller implements EventHandler<ActionEvent> {
     private TextField inputY;
     private TextField inputVx;
     private TextField inputVy;
+    private TextField inputDt;
     private double x;
     private double y;
     private double vX;
     private double vY;
+    private double dT;
 
-    public Controller(LineChart<Number, Number> lineChart, Text errorField, TextField inputX, TextField inputY, TextField inputVx, TextField inputVy,
+    public Controller(LineChart<Number, Number> lineChart, Text errorField,
+                      TextField inputX, TextField inputY, TextField inputVx, TextField inputVy, TextField inputDt,
                       Text maxDistance, Text maxHeight, Text flightTime) {
         this.lineChart = lineChart;
         this.flightTime = flightTime;
@@ -36,31 +39,37 @@ public class Controller implements EventHandler<ActionEvent> {
         this.inputY = inputY;
         this.inputVx = inputVx;
         this.inputVy = inputVy;
+        this.inputDt = inputDt;
     }
 
     @Override
     public void handle(ActionEvent actionEvent) {
         try {
-            initParams(inputX.getText(), inputY.getText(), inputVx.getText(), inputVy.getText());
+            initParams(inputX.getText(), inputY.getText(), inputVx.getText(), inputVy.getText(), inputDt.getText());
             lineChart.getData().add(getTrajectory());
-            maxHeight.setText(String.format("%.3f", maxHeight()));
-            maxDistance.setText(String.format("%.3f", maxDistance()));
-            flightTime.setText(String.format("%.3f", flightTime()));
+            maxHeight.setText(String.format("%.3g", maxHeight()));
+            maxDistance.setText(String.format("%.3g", maxDistance()));
+            flightTime.setText(String.format("%.3g", flightTime()));
         } catch (NumberFormatException e) {
             errorField.setText("One of the input field is empty or not a number");
         }
     }
 
-    public void initParams(String x, String y, String vX, String vY) throws NumberFormatException{
+    public void initParams(String x, String y, String vX, String vY, String dT) throws NumberFormatException{
         this.x = getX(x);
         this.y = getY(y);
         this.vX = getVx(vX);
         this.vY = getVy(vY);
+        this.dT = getDt(dT);
     }
 
     public XYChart.Series<Number, Number> getTrajectory() {
-        model = new Model(x, y, vX, vY, 0.05);
+        model = new Model(x, y, vX, vY, dT);
         return model.createTrajectory();
+    }
+
+    private double getDt(String dT) {
+        return Double.parseDouble(dT);
     }
 
     private double getX(String x) {
