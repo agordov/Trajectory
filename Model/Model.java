@@ -26,27 +26,42 @@ public class Model {
         this.vy = vy;
         this.dt = dt;
         this.t = 0;
-       if(airDragEx )
+        if(airDragEx )
            this.airDrag = AIR_DRAG;
     }
 
     public XYChart.Series<Number, Number> createTrajectory() {
         ObservableList<XYChart.Data<Number, Number>> data = FXCollections.observableArrayList();
         XYChart.Series<Number, Number> series = new XYChart.Series<>();
-        double xCur;
+        int len = 0;
+        double xCur = x;
         double yCur = y;
         double vxCur;
         double vyCur;
-        while(yCur >= 0) {
+
+        for(len = 0; yCur <= 0; len++) {
             vxCur = vx - airDrag*vx*t/m;
             vyCur = vy - (FFA+airDrag*vy/m)*t;
             xCur = x + vxCur * t ;
             yCur = y + vyCur * t;
             t += dt;
-            data.add(new XYChart.Data<>(xCur, yCur));
+            XYChart.Data<Number, Number> curData = new XYChart.Data<>(xCur, yCur);
+            data.add(curData);
         }
-        series.setData(data);
+        series.setData(approximateLastPoint(data, len));
         return series;
+    }
+
+    private ObservableList<XYChart.Data<Number, Number>> approximateLastPoint(ObservableList<XYChart.Data<Number, Number>> data, int len) {
+        double yLast = (double) data.get(len).getYValue();
+        double xLast = (double) data.get(len).getXValue();
+        data.remove(len);
+        len--;
+        double yCur = (double) data.get(len).getYValue();
+        double xCur = (double) data.get(len).getXValue();
+        xLast = (0 - yLast) * (xCur - xLast) / (yCur - yLast) + xLast;
+        data.add(new XYChart.Data<>(xCur, 0));
+        return data;
     }
 
     public double maxHeight() {
