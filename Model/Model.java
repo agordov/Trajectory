@@ -60,7 +60,7 @@ public class Model {
         double yCur = (double) data.get(len).getYValue();
         double xCur = (double) data.get(len).getXValue();
         xLast = (0 - yLast) * (xCur - xLast) / (yCur - yLast) + xLast;
-        data.add(new XYChart.Data<>(xCur, 0));
+        data.add(new XYChart.Data<>(xLast, 0));
         return data;
     }
 
