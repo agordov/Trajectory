@@ -6,7 +6,6 @@ import javafx.scene.chart.XYChart;
 
 public class Model {
 
-
     private final double FFA = 9.81;
     private double x;
     private double y;

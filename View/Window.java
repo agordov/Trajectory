@@ -1,11 +1,8 @@
 package Trajectory.View;
 
+import Trajectory.Controller.ClearController;
 import Trajectory.Controller.Controller;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -19,13 +16,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import static Trajectory.View.Constants.*;
 import static Trajectory.View.WindowUtils.*;
 
 public class Window extends Application{
-    private static Button button;
+    private static Button startButton;
+    private static Button clearButton;
     private static GridPane gridPane;
     private static LineChart<Number, Number> trajectoryGraph;
+    private static Text errorField;
     private static TextField inputX;
     private static TextField inputY;
     private static TextField inputVx;
@@ -40,52 +38,36 @@ public class Window extends Application{
         stage.setTitle("Trajectory");
 
         gridPane = createGridPane();
-        button = new Button("Start");
+        startButton = new Button("Start");
         HBox hBox = createHBox();
-        hBox.getChildren().add(button);
+        hBox.getChildren().add(startButton);
+        clearButton = new Button("Clear");
+        hBox.getChildren().add(clearButton);
+        gridPane.add(new StackPane(hBox), 1, 1);
 
-        VBox rightPanel = createRightPanel();
+        RightPanel rightPanel = new RightPanel();
         HBox bottomPanel = createBottomPanel();
         Scene scene = new Scene(gridPane, 640, 480);
         stage.setScene(scene);
 
         gridPane.setGridLinesVisible(true);
         gridPane.add(bottomPanel, 0, 1);
-        gridPane.add(rightPanel, 1, 0);
-        gridPane.add(new StackPane(button), 1, 1);
+        gridPane.add(rightPanel.gridPane, 1, 0);
 
-//        trajectoryGraph = createLineChart();
-        trajectoryGraph.setTitle("Series");
+
+        errorField = createText("");
+        gridPane.add(new StackPane(errorField), 0, 2);
+        trajectoryGraph = createLineChart();
+        trajectoryGraph.setCreateSymbols(false);
+        trajectoryGraph.setTitle("Trajectories");
         gridPane.add(trajectoryGraph, 0, 0);
 
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                try {
-                    Controller controller = new Controller(inputX.getText(), inputY.getText(), inputVx.getText(), inputVy.getText());
-                }
-                trajectoryGraph = controller.getData());
-            }
-        });
+        clearButton.setOnAction(new ClearController(trajectoryGraph, errorField));
+
+        startButton.setOnAction(new Controller(trajectoryGraph, errorField, inputX, inputY, inputVx, inputVy,
+                rightPanel.distanceValue, rightPanel.maxHeightValue, rightPanel.flightTimeValue));
 
         stage.show();
-    }
-
-    private static VBox createRightPanel() {
-        VBox vBox = new VBox();
-        vBox.setSpacing(10);
-        Label maxHeight = createLabel("MaxHeight:");
-        Label time = createLabel("Flight time:");
-        Label distance = createLabel("Distance:");
-        Text maxHeightValue = createText("tqtw4tw");
-        Text timeValue = createText("tq4t4qt");
-        Text distanceValue = createText("ju5khetk");
-        vBox.getChildren().addAll(
-                new HBox(maxHeight, maxHeightValue),
-                new HBox(time, timeValue),
-                new HBox(distance, distanceValue)
-        );
-        return vBox;
     }
 
     private static HBox createBottomPanel() {
@@ -111,20 +93,6 @@ public class Window extends Application{
         TextField textField = new TextField();
         textField.setMaxWidth(50);
         return textField;
-    }
-
-    private static GridPane createGridPane(Pos pos, int hGap, int vGap, int topPad, int rightPad, int bottomPad, int leftPad) {
-        GridPane gridPane = new GridPane();
-        gridPane.setAlignment(pos);
-        gridPane.setHgap(hGap);
-        gridPane.setVgap(vGap);
-        gridPane.setPadding(new Insets(topPad, rightPad, bottomPad, leftPad));
-        return gridPane;
-    }
-
-    private static GridPane createGridPane() {
-        return createGridPane(DEFAULT_POS, DEFAULT_HGAP, DEFAULT_VGAP,
-                DEFAULT_TOPPAD, DEFAULT_RIGHTPAD, DEFAULT_BOTPAD, DEFAULT_LEFTPAD);
     }
 
     private static LineChart<Number, Number> createLineChart() {

@@ -1,25 +1,66 @@
 package Trajectory.Controller;
 
 import Trajectory.Model.Model;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 
-public class Controller {
+public class Controller implements EventHandler<ActionEvent> {
+
+    private LineChart<Number, Number> lineChart;
+    private Text maxDistance;
+    private Text maxHeight;
+    private Text flightTime;
+    private Text errorField;
     private Model model;
+    private TextField inputX;
+    private TextField inputY;
+    private TextField inputVx;
+    private TextField inputVy;
     private double x;
     private double y;
     private double vX;
     private double vY;
 
-    public Controller(String x, String y, String vX, String vY) throws NumberFormatException {
+    public Controller(LineChart<Number, Number> lineChart, Text errorField, TextField inputX, TextField inputY, TextField inputVx, TextField inputVy,
+                      Text maxDistance, Text maxHeight, Text flightTime) {
+        this.lineChart = lineChart;
+        this.flightTime = flightTime;
+        this.maxDistance = maxDistance;
+        this.maxHeight = maxHeight;
+        this.errorField = errorField;
+        this.inputX = inputX;
+        this.inputY = inputY;
+        this.inputVx = inputVx;
+        this.inputVy = inputVy;
+    }
+
+    @Override
+    public void handle(ActionEvent actionEvent) {
         try {
-            this.x = getX(x);
-            this.y = getY(y);
-            this.vX = getVx(vX);
-            this.vY = getVy(vY);
+            initParams(inputX.getText(), inputY.getText(), inputVx.getText(), inputVy.getText());
+            lineChart.getData().add(getTrajectory());
+            maxHeight.setText(String.format("%.3f", maxHeight()));
+            maxDistance.setText(String.format("%.3f", maxDistance()));
+            flightTime.setText(String.format("%.3f", flightTime()));
         } catch (NumberFormatException e) {
-            throw new NumberFormatException("This is not a number");
+            errorField.setText("One of the input field is empty or not a number");
         }
-        model = new Model(this.x, this.y, this.vX, this.vY, 0.05);
+    }
+
+    public void initParams(String x, String y, String vX, String vY) throws NumberFormatException{
+        this.x = getX(x);
+        this.y = getY(y);
+        this.vX = getVx(vX);
+        this.vY = getVy(vY);
+    }
+
+    public XYChart.Series<Number, Number> getTrajectory() {
+        model = new Model(x, y, vX, vY, 0.05);
+        return model.createTrajectory();
     }
 
     private double getX(String x) {
@@ -38,15 +79,11 @@ public class Controller {
         return Double.parseDouble(vY);
     }
 
-    public XYChart.Series<Number, Number> getData() {
-        return model.createTrajectory();
-    }
-
-    public double getMaxHeight() {
+    public double maxHeight() {
         return model.maxHeight();
     }
 
-    public double getflightTime() {
+    public double flightTime() {
         return model.flightTime();
     }
 

@@ -1,7 +1,9 @@
 package Trajectory.View;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -51,6 +53,20 @@ public class WindowUtils {
 
     public static HBox createHBox() {
         return createHBox(DEFAULT_SPACING, DEFAULT_POS);
+    }
+
+    public static GridPane createGridPane(Pos pos, int hGap, int vGap, int topPad, int rightPad, int bottomPad, int leftPad) {
+        GridPane gridPane = new GridPane();
+        gridPane.setAlignment(pos);
+        gridPane.setHgap(hGap);
+        gridPane.setVgap(vGap);
+        gridPane.setPadding(new Insets(topPad, rightPad, bottomPad, leftPad));
+        return gridPane;
+    }
+
+    public static GridPane createGridPane() {
+        return createGridPane(DEFAULT_POS, DEFAULT_HGAP, DEFAULT_VGAP,
+                DEFAULT_TOPPAD, DEFAULT_RIGHTPAD, DEFAULT_BOTPAD, DEFAULT_LEFTPAD);
     }
 
 }
