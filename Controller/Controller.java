@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
@@ -26,10 +27,11 @@ public class Controller implements EventHandler<ActionEvent> {
     private double vX;
     private double vY;
     private double dT;
+    private CheckBox checkBox;
 
     public Controller(LineChart<Number, Number> lineChart, Text errorField,
                       TextField inputX, TextField inputY, TextField inputVx, TextField inputVy, TextField inputDt,
-                      Text maxDistance, Text maxHeight, Text flightTime) {
+                      Text maxDistance, Text maxHeight, Text flightTime, CheckBox checkBox) {
         this.lineChart = lineChart;
         this.flightTime = flightTime;
         this.maxDistance = maxDistance;
@@ -40,11 +42,13 @@ public class Controller implements EventHandler<ActionEvent> {
         this.inputVx = inputVx;
         this.inputVy = inputVy;
         this.inputDt = inputDt;
+        this.checkBox = checkBox;
     }
 
     @Override
     public void handle(ActionEvent actionEvent) {
         try {
+            errorField.setText("");
             initParams(inputX.getText(), inputY.getText(), inputVx.getText(), inputVy.getText(), inputDt.getText());
             lineChart.getData().add(getTrajectory());
             maxHeight.setText(String.format("%.3g", maxHeight()));
@@ -64,7 +68,7 @@ public class Controller implements EventHandler<ActionEvent> {
     }
 
     public XYChart.Series<Number, Number> getTrajectory() {
-        model = new Model(x, y, vX, vY, dT, true);
+        model = new Model(x, y, vX, vY, dT, checkBox.isSelected());
         return model.createTrajectory();
     }
 

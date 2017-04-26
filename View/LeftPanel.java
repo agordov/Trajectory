@@ -1,9 +1,9 @@
 package Trajectory.View;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 
 class LeftPanel {
 
@@ -17,26 +17,27 @@ class LeftPanel {
 
     LeftPanel() {
         gridPane = WindowUtils.createGridPane();
+        gridPane.setAlignment(Pos.BASELINE_RIGHT);
         Label x = WindowUtils.createLabel("X");
         Label y = WindowUtils.createLabel("Y");
-        Label coordinates = WindowUtils.createLabel("Coordinates");
-        Label velocity = WindowUtils.createLabel("Velocity");
+        Label xVelocity = WindowUtils.createLabel("X Velocity");
+        Label yVelocity = WindowUtils.createLabel("Y Velocity");
         Label timeStep = WindowUtils.createLabel("Time step:");
         inputX = createTextField();
         inputY = createTextField();
         inputVx = createTextField();
         inputVy = createTextField();
-        inputDt = new TextField();
-        gridPane.add(new StackPane(x), 1, 0);
-        gridPane.add(new StackPane(y), 2, 0);
-        gridPane.add(coordinates, 0, 1);
-        gridPane.add(inputX, 1, 1);
-        gridPane.add(inputY, 2, 1);
-        gridPane.add(velocity, 0, 2);
+        inputDt = createTextField();
+        gridPane.add(x, 0, 0);
+        gridPane.add(inputX, 1, 0);
+        gridPane.add(y, 0, 1);
+        gridPane.add(inputY, 1, 1);
+        gridPane.add(xVelocity, 0, 2);
         gridPane.add(inputVx, 1, 2);
-        gridPane.add(inputVy, 2, 2);
-        gridPane.add(timeStep, 0, 3);
-        gridPane.add(inputDt, 1, 3, 2, 1);
+        gridPane.add(yVelocity, 0, 3);
+        gridPane.add(inputVy, 1, 3);
+        gridPane.add(timeStep, 0, 4);
+        gridPane.add(inputDt, 1, 4);
     }
 
     private static TextField createTextField() {

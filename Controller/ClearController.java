@@ -14,9 +14,13 @@ public class ClearController implements EventHandler<ActionEvent> {
     private TextField inputVx;
     private TextField inputVy;
     private TextField inputDt;
+    private Text maxHeightValue;
+    private Text flightTimeValue;
+    private Text distanceValue;
 
     public ClearController(LineChart<Number, Number> lineChart, Text errorField,
-                           TextField inputX, TextField inputY, TextField inputVx, TextField inputVy, TextField inputDt) {
+                           TextField inputX, TextField inputY, TextField inputVx, TextField inputVy, TextField inputDt,
+                           Text maxHeightValue, Text flightTimeValue, Text distanceValue) {
         this.lineChart = lineChart;
         this.errorField = errorField;
         this.inputX = inputX;
@@ -24,6 +28,9 @@ public class ClearController implements EventHandler<ActionEvent> {
         this.inputVx = inputVx;
         this.inputVy = inputVy;
         this.inputDt = inputDt;
+        this.maxHeightValue = maxHeightValue;
+        this.flightTimeValue = flightTimeValue;
+        this.distanceValue = distanceValue;
     }
 
     private void clearChart() {
@@ -34,6 +41,9 @@ public class ClearController implements EventHandler<ActionEvent> {
         inputVx.setText("");
         inputVy.setText("");
         inputDt.setText("");
+        maxHeightValue.setText("");
+        flightTimeValue.setText("");
+        distanceValue.setText("");
     }
 
     @Override

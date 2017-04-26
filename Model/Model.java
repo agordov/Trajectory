@@ -7,7 +7,7 @@ import javafx.scene.chart.XYChart;
 public class Model {
 
     private final double FFA = 9.81;
-    private final double AIR_DRAG = 1;
+    private final double AIR_DRAG = 0.8;
     private final double m = 1;
     private double x;
     private double y;
@@ -16,39 +16,48 @@ public class Model {
     private double dt;
     private double t;
     private double airDrag;
+    private double maxH;
+    private double distance;
 
 
 
-    public Model(double x, double y, double vx, double vy, double dt, boolean airDragEx) {
+    public Model(double x, double y, double vx, double vy, double dt, boolean hasAirDrag) {
         this.x = x;
         this.y = y;
         this.vx = vx;
         this.vy = vy;
         this.dt = dt;
         this.t = 0;
-        if(airDragEx )
+        this.distance = 0;
+        this.maxH = 0;
+        if(hasAirDrag) {
            this.airDrag = AIR_DRAG;
+        }
     }
 
     public XYChart.Series<Number, Number> createTrajectory() {
         ObservableList<XYChart.Data<Number, Number>> data = FXCollections.observableArrayList();
         XYChart.Series<Number, Number> series = new XYChart.Series<>();
-        int len = 0;
         double xCur = x;
         double yCur = y;
-        double vxCur;
-        double vyCur;
-
-        for(len = 0; yCur <= 0; len++) {
-            vxCur = vx - airDrag*vx*t/m;
-            vyCur = vy - (FFA+airDrag*vy/m)*t;
-            xCur = x + vxCur * t ;
-            yCur = y + vyCur * t;
+        double vxCur = vx;
+        double vyCur = vy;
+        data.add(new XYChart.Data<>(xCur, yCur));
+        while(yCur > 0 || (vyCur > 0 && yCur == 0)) {
+            vxCur -= airDrag*vxCur*dt/m;
+            vyCur -= (FFA+airDrag*vyCur/m)*dt;
+            xCur += vxCur * dt ;
+            yCur += vyCur * dt;
             t += dt;
-            XYChart.Data<Number, Number> curData = new XYChart.Data<>(xCur, yCur);
-            data.add(curData);
+            if (yCur > maxH) {
+                maxH = yCur;
+            }
+            data.add(new XYChart.Data<>(xCur, yCur));
         }
-        series.setData(approximateLastPoint(data, len));
+        if (data.size() > 1) {
+            series.setData(approximateLastPoint(data, data.size() - 1));
+        }
+        distance = (double)data.get(data.size() - 1).getXValue();
         return series;
     }
 
@@ -65,17 +74,15 @@ public class Model {
     }
 
     public double maxHeight() {
-        double t = m/(airDrag+m*FFA);
-        return y + vy *t*(1+airDrag/m) - FFA*t*t;
+       return maxH;
     }
 
     public double flightTime() {
         return t;
-//        return (vy + Math.sqrt(vy * vy + 2 * FFA * y)) / 2;
     }
 
     public double maxDistance() {
-        return flightTime() * vx* (1 - airDrag / m) + x;
+        return distance;
     }
 
 }
