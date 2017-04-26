@@ -8,7 +8,7 @@ import static Trajectory.View.WindowUtils.createGridPane;
 import static Trajectory.View.WindowUtils.createLabel;
 import static Trajectory.View.WindowUtils.createText;
 
-public class RightPanel {
+class RightPanel {
     GridPane gridPane;
     Label maxHeight;
     Label flightTime;

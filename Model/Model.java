@@ -7,8 +7,8 @@ import javafx.scene.chart.XYChart;
 public class Model {
 
     private final double FFA = 9.81;
-    private final double AIR_DRAG =1;
-    private final double m =1;
+    private final double AIR_DRAG = 1;
+    private final double m = 1;
     private double x;
     private double y;
     private double vx;
@@ -35,25 +35,26 @@ public class Model {
         XYChart.Series<Number, Number> series = new XYChart.Series<>();
         double xCur;
         double yCur = y;
+        double vxCur;
+        double vyCur;
         while(yCur >= 0) {
             vxCur = vx - airDrag*vx*t/m;
-            vyCur = vy- (FFA+airDrag*vy/m)*t;
+            vyCur = vy - (FFA+airDrag*vy/m)*t;
             xCur = x + vxCur * t ;
             yCur = y + vyCur * t;
             t += dt;
-            data.add(new XYChart.Data<>(xcur, ycur));
+            data.add(new XYChart.Data<>(xCur, yCur));
         }
         series.setData(data);
         return series;
     }
 
     public double maxHeight() {
-        t = m/(k+m*g);
-        return y + vy *t*(1+k/m) - g*t^2;
+        double t = m/(airDrag+m*FFA);
+        return y + vy *t*(1+airDrag/m) - FFA*t*t;
     }
 
     public double flightTime() {
-
         return t;
 //        return (vy + Math.sqrt(vy * vy + 2 * FFA * y)) / 2;
     }

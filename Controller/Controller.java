@@ -49,7 +49,7 @@ public class Controller implements EventHandler<ActionEvent> {
             lineChart.getData().add(getTrajectory());
             maxHeight.setText(String.format("%.3g", maxHeight()));
             maxDistance.setText(String.format("%.3g", maxDistance()));
-            flightTime.setText(String.format("%.3g", flightTime()));
+            flightTime.setText(String.format("%.3g", getFlightTime()));
         } catch (NumberFormatException e) {
             errorField.setText("One of the input field is empty or not a number");
         }
@@ -64,7 +64,7 @@ public class Controller implements EventHandler<ActionEvent> {
     }
 
     public XYChart.Series<Number, Number> getTrajectory() {
-        model = new Model(x, y, vX, vY, dT);
+        model = new Model(x, y, vX, vY, dT, true);
         return model.createTrajectory();
     }
 
