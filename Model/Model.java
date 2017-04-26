@@ -7,29 +7,39 @@ import javafx.scene.chart.XYChart;
 public class Model {
 
     private final double FFA = 9.81;
+    private final double AIR_DRAG =1;
+    private final double m =1;
     private double x;
     private double y;
     private double vx;
     private double vy;
     private double dt;
+    private double t;
+    private double airDrag;
 
-    public Model(double x, double y, double vx, double vy, double dt) {
+
+
+    public Model(double x, double y, double vx, double vy, double dt, boolean airDragEx) {
         this.x = x;
         this.y = y;
         this.vx = vx;
         this.vy = vy;
         this.dt = dt;
+        this.t = 0;
+       if(airDragEx )
+           this.airDrag = AIR_DRAG;
     }
 
     public XYChart.Series<Number, Number> createTrajectory() {
         ObservableList<XYChart.Data<Number, Number>> data = FXCollections.observableArrayList();
         XYChart.Series<Number, Number> series = new XYChart.Series<>();
-        double xcur;
-        double ycur = y;
-        double t = 0;
-        while(ycur >= 0) {
-            xcur = vx * t + x;
-            ycur = y + vy * t - FFA * t * t / 2;
+        double xCur;
+        double yCur = y;
+        while(yCur >= 0) {
+            vxCur = vx - airDrag*vx*t/m;
+            vyCur = vy- (FFA+airDrag*vy/m)*t;
+            xCur = x + vxCur * t ;
+            yCur = y + vyCur * t;
             t += dt;
             data.add(new XYChart.Data<>(xcur, ycur));
         }
@@ -38,15 +48,18 @@ public class Model {
     }
 
     public double maxHeight() {
-        return y + vy * vy / 2 / FFA;
+        t = m/(k+m*g);
+        return y + vy *t*(1+k/m) - g*t^2;
     }
 
     public double flightTime() {
-        return (vy + Math.sqrt(vy * vy + 2 * FFA * y)) / 2;
+
+        return t;
+//        return (vy + Math.sqrt(vy * vy + 2 * FFA * y)) / 2;
     }
 
     public double maxDistance() {
-        return flightTime() * vx + x;
+        return flightTime() * vx* (1 - airDrag / m) + x;
     }
 
 }
